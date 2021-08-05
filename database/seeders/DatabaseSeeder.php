@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        DB::table('countries')->insert([
+            'country_code' => Str::random(3),
+            'name' => Str::random(10)
+        ]);
+
     }
 }
