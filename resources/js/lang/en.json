@@ -38,5 +38,16 @@
   "verify_email_address": "We sent you an email with an the verification link.",
   "username": "Full Name",
   "firstname": "First Name",
-  "lastname": "Last Name"
+  "lastname": "Last Name",
+  "dashboard": "Dashboard",
+  "employee_management": "Employee Management",
+  "system_management": "System Management",
+  "country": "Country",
+  "state": "State",
+  "city": "City",
+  "department": "Department",
+  "user_management": "User Management",
+  "user": "User",
+  "role": "Role",
+  "permission": "Permission"
 }
