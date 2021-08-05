@@ -3,15 +3,15 @@
     <div class="top-right links">
       <template v-if="authenticated">
         <router-link :to="{ name: 'home' }">
-          {{ $t('home') }}
+          {{ $t("home") }}
         </router-link>
       </template>
       <template v-else>
         <router-link :to="{ name: 'login' }">
-          {{ $t('login') }}
+          {{ $t("login") }}
         </router-link>
         <router-link :to="{ name: 'register' }">
-          {{ $t('register') }}
+          {{ $t("register") }}
         </router-link>
       </template>
     </div>
@@ -20,32 +20,28 @@
       <div class="title mb-4">
         {{ title }}
       </div>
-
-      <div class="links">
-        <a href="https://github.com/cretueusebiu/laravel-vue-spa">github.com/cretueusebiu/laravel-vue-spa</a>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  layout: 'basic',
+  layout: "basic",
 
-  metaInfo () {
-    return { title: this.$t('home') }
+  metaInfo() {
+    return { title: this.$t("home") };
   },
 
   data: () => ({
-    title: window.config.appName
+    title: window.config.appName,
   }),
 
   computed: mapGetters({
-    authenticated: 'auth/check'
-  })
-}
+    authenticated: "auth/check",
+  }),
+};
 </script>
 
 <style scoped>

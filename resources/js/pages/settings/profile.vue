@@ -3,20 +3,70 @@
     <form @submit.prevent="update" @keydown="form.onKeydown($event)">
       <alert-success :form="form" :message="$t('info_updated')" />
 
-      <!-- Name -->
+      <!-- FirstName -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">{{
+          $t("firstname")
+        }}</label>
         <div class="col-md-7">
-          <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-          <has-error :form="form" field="name" />
+          <input
+            v-model="form.firstname"
+            :class="{ 'is-invalid': form.errors.has('firstname') }"
+            class="form-control"
+            type="text"
+            name="firstname"
+          />
+          <has-error :form="form" field="firstname" />
+        </div>
+      </div>
+
+      <!-- LastName -->
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">{{
+          $t("lastname")
+        }}</label>
+        <div class="col-md-7">
+          <input
+            v-model="form.lastname"
+            :class="{ 'is-invalid': form.errors.has('lastname') }"
+            class="form-control"
+            type="text"
+            name="lastname"
+          />
+          <has-error :form="form" field="lastname" />
+        </div>
+      </div>
+
+      <!-- UserName -->
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">{{
+          $t("username")
+        }}</label>
+        <div class="col-md-7">
+          <input
+            v-model="form.username"
+            :class="{ 'is-invalid': form.errors.has('username') }"
+            class="form-control"
+            type="text"
+            name="username"
+          />
+          <has-error :form="form" field="username" />
         </div>
       </div>
 
       <!-- Email -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">{{
+          $t("email")
+        }}</label>
         <div class="col-md-7">
-          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
+          <input
+            v-model="form.email"
+            :class="{ 'is-invalid': form.errors.has('email') }"
+            class="form-control"
+            type="email"
+            name="email"
+          />
           <has-error :form="form" field="email" />
         </div>
       </div>
@@ -25,7 +75,7 @@
       <div class="form-group row">
         <div class="col-md-9 ml-md-auto">
           <v-button :loading="form.busy" type="success">
-            {{ $t('update') }}
+            {{ $t("update") }}
           </v-button>
         </div>
       </div>
@@ -34,40 +84,42 @@
 </template>
 
 <script>
-import Form from 'vform'
-import { mapGetters } from 'vuex'
+import Form from "vform";
+import { mapGetters } from "vuex";
 
 export default {
   scrollToTop: false,
 
-  metaInfo () {
-    return { title: this.$t('settings') }
+  metaInfo() {
+    return { title: this.$t("settings") };
   },
 
   data: () => ({
     form: new Form({
-      name: '',
-      email: ''
-    })
+      username: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+    }),
   }),
 
   computed: mapGetters({
-    user: 'auth/user'
+    user: "auth/user",
   }),
 
-  created () {
+  created() {
     // Fill the form with user data.
-    this.form.keys().forEach(key => {
-      this.form[key] = this.user[key]
-    })
+    this.form.keys().forEach((key) => {
+      this.form[key] = this.user[key];
+    });
   },
 
   methods: {
-    async update () {
-      const { data } = await this.form.patch('/api/settings/profile')
+    async update() {
+      const { data } = await this.form.patch("/api/settings/profile");
 
-      this.$store.dispatch('auth/updateUser', { user: data })
-    }
-  }
-}
+      this.$store.dispatch("auth/updateUser", { user: data });
+    },
+  },
+};
 </script>

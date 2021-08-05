@@ -21,7 +21,9 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
+        'firstname',
+        'lastname',
         'email',
         'password',
     ];
@@ -63,7 +65,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     {
         return vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
             md5(strtolower($this->email)),
-            $this->name ? urlencode("https://ui-avatars.com/api/$this->name") : 'mp',
+            $this->username ? urlencode("https://ui-avatars.com/api/$this->username") : 'mp',
         ]);
     }
 
