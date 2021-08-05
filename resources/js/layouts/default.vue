@@ -1,5 +1,5 @@
 <template>
-  <div class="main-layout">
+  <div class="main-layout" id="main-content">
     <div>
       <sidebar-menu
         :menu="menu"
@@ -27,10 +27,15 @@ import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
 
 export default {
   name: "MainLayout",
-
   components: {
     Navbar,
     SidebarMenu,
+  },
+  created() {
+    window.addEventListener("resize", this.myEventHandler);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
   },
   computed: mapGetters({
     authenticated: "auth/check",
@@ -44,9 +49,21 @@ export default {
         document.getElementById("main").style.marginLeft = "0px";
       }
     },
+    resize(resize) {
+      if (resize == 1) {
+        this.ChangeSidebar(true);
+        document.getElementById("sidebar").style.width = "50px";
+        // document.getElementById("main").style.marginLeft = "50px";
+      } else {
+        this.ChangeSidebar(false);
+        document.getElementById("sidebar").style.width = "350px";
+        // document.getElementById("main").style.marginLeft = "350px";
+      }
+    },
   },
   data() {
     return {
+      resize: 0,
       menu: [
         {
           header: true,
@@ -98,11 +115,18 @@ export default {
     document.getElementById("main").style.marginLeft = "350px";
   },
   methods: {
-    ChangeSidebar() {
-      if (document.getElementById("sidebar").offsetWidth == 350) {
+    ChangeSidebar(collapsed) {
+      if (collapsed == true) {
         document.getElementById("main").style.marginLeft = "50px";
       } else {
         document.getElementById("main").style.marginLeft = "350px";
+      }
+    },
+    myEventHandler(e) {
+      if (document.getElementById("main-content").offsetWidth < 700) {
+        this.resize = 1;
+      } else {
+        this.resize = 0;
       }
     },
   },

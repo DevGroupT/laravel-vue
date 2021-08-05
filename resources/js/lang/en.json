@@ -49,5 +49,7 @@
   "user_management": "User Management",
   "user": "User",
   "role": "Role",
-  "permission": "Permission"
+  "permission": "Permission",
+  "filter": "Filter",
+  "add_new": "Add New"
 }
