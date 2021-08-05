@@ -1,4 +1,4 @@
-function page (path) {
+function page(path) {
   return () => import(/* webpackChunkName: '' */ `~/pages/${path}`).then(m => m.default || m)
 }
 
@@ -13,6 +13,12 @@ export default [
   { path: '/email/resend', name: 'verification.resend', component: page('auth/verification/resend.vue') },
 
   { path: '/home', name: 'home', component: page('home.vue') },
+  { path: '/employee_management', name: 'employee_management', component: page('employee_management.vue') },
+  { path: '/system_management/country', name: 'country', component: page('system_management/country.vue') },
+  { path: '/system_management/state', name: 'state', component: page('system_management/state.vue') },
+  { path: '/system_management/city', name: 'city', component: page('system_management/city.vue') },
+  { path: '/system_management/department', name: 'department', component: page('system_management/department.vue') },
+  { path: '/user_management', name: 'user_management', component: page('user_management.vue') },
   {
     path: '/settings',
     component: page('settings/index.vue'),
