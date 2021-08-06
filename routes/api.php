@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CitiesController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\EmployeesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +75,15 @@ Route::post('city/create', 'App\Http\Controllers\CitiesController@store');
 Route::post('city/update/{id}', 'App\Http\Controllers\CitiesController@update');
 Route::post('city/delete/{id}', 'App\Http\Controllers\CitiesController@destroy');
 Route::post('city/filterdata', 'App\Http\Controllers\CitiesController@filterdata');
+
+Route::get('department/getdata', 'App\Http\Controllers\DepartmentsController@index');
+Route::post('department/create', 'App\Http\Controllers\DepartmentsController@store');
+Route::post('department/update/{id}', 'App\Http\Controllers\DepartmentsController@update');
+Route::post('department/delete/{id}', 'App\Http\Controllers\DepartmentsController@destroy');
+Route::get('department/filterdata/{data}', 'App\Http\Controllers\DepartmentsController@filterdata');
+
+Route::get('employee/getdata', 'App\Http\Controllers\EmployeesController@index');
+Route::post('employee/create', 'App\Http\Controllers\EmployeesController@store');
+Route::post('employee/update/{id}', 'App\Http\Controllers\EmployeesController@update');
+Route::post('employee/delete/{id}', 'App\Http\Controllers\EmployeesController@destroy');
+Route::get('employee/filterdata/{data}', 'App\Http\Controllers\EmployeesController@filterdata');

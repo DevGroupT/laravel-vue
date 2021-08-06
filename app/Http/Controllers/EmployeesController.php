@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employees;
 use Illuminate\Http\Request;
+use DB;
 
 class EmployeesController extends Controller
 {
@@ -14,17 +15,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('employees')->get();
     }
 
     /**
@@ -35,7 +26,10 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Employees::create([
+            'name'       => $request->name,
+            'country'    => $request->id,
+        ]);
     }
 
     /**
@@ -44,20 +38,18 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function show(Employees $employees)
+    public function filterdata(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Employees  $employees
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Employees $employees)
-    {
-        //
+        if($request->name == '' || $request->id == ''){
+            if($request->name == ''){
+                return DB::table('employees')->where('country', $request->id)->get();
+            }
+            if($request->id == ''){
+                return DB::table('employees')->where('name', 'like', '%' . $request->name . '%')->get();
+            }
+        }else{
+            return DB::table('employees')->where('name', 'like', '%' . $request->name . '%')->where('country', $request->id)->get();
+        }
     }
 
     /**
@@ -67,9 +59,13 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employees $employees)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'name'      => $request->name,
+            'country'   => $request->id,
+        );
+        return DB::table('employees')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +74,8 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employees $employees)
+    public function destroy($id)
     {
-        //
+        return DB::table('employees')->where('id', $id)->delete();
     }
 }

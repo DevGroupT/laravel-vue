@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="row">
+      <div class="col-12">
+        <h5>
+          {{ this.$t("system_management") + " / " + this.$t("state") }}
+        </h5>
+      </div>
+    </div>
+    <br />
+    <div class="row">
       <div class="col-3 padding-top">
         <input
           v-model="filterData.name"

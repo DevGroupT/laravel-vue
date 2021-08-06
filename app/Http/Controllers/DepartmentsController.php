@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Departments;
 use Illuminate\Http\Request;
+use DB;
 
 class DepartmentsController extends Controller
 {
@@ -14,17 +15,7 @@ class DepartmentsController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('departments')->get();
     }
 
     /**
@@ -35,7 +26,9 @@ class DepartmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Departments::create([
+            'name' => $request->name,
+        ]);
     }
 
     /**
@@ -44,20 +37,9 @@ class DepartmentsController extends Controller
      * @param  \App\Models\Departments  $departments
      * @return \Illuminate\Http\Response
      */
-    public function show(Departments $departments)
+    public function filterdata($data)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Departments  $departments
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Departments $departments)
-    {
-        //
+        return DB::table('departments')->where('name', 'like', '%' . $data . '%')->get();
     }
 
     /**
@@ -67,9 +49,12 @@ class DepartmentsController extends Controller
      * @param  \App\Models\Departments  $departments
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Departments $departments)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'name' => $request->name,
+        );
+        return DB::table('departments')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +63,8 @@ class DepartmentsController extends Controller
      * @param  \App\Models\Departments  $departments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Departments $departments)
+    public function destroy($id)
     {
-        //
+        return DB::table('departments')->where('id', $id)->delete();
     }
 }
