@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use Illuminate\Http\Request;
+use DB;
 
 class CountryController extends Controller
 {
@@ -14,17 +15,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('countries')->get();
     }
 
     /**
@@ -35,7 +26,10 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Country::create([
+            'name'          => $request->name,
+            'country_code'  => $request->code,
+        ]);
     }
 
     /**
@@ -44,20 +38,9 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function show(Country $country)
+    public function filterdata($data)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Country $country)
-    {
-        //
+        return DB::table('countries')->where('name', 'like', '%' . $data . '%')->get();
     }
 
     /**
@@ -67,9 +50,13 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Country $country)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'name'          => $request->name,
+            'country_code'  => $request->code,
+        );
+        return DB::table('countries')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +65,8 @@ class CountryController extends Controller
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Country $country)
+    public function destroy($id)
     {
-        //
+        return DB::table('countries')->where('id', $id)->delete();
     }
 }

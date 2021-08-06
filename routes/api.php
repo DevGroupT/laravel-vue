@@ -11,6 +11,8 @@ use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CountryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,3 +53,9 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('oauth/{driver}', [OAuthController::class, 'redirect']);
     Route::get('oauth/{driver}/callback', [OAuthController::class, 'handleCallback'])->name('oauth.callback');
 });
+
+Route::get('country/getdata', 'App\Http\Controllers\CountryController@index');
+Route::post('country/create', 'App\Http\Controllers\CountryController@store');
+Route::post('country/update/{id}', 'App\Http\Controllers\CountryController@update');
+Route::post('country/delete/{id}', 'App\Http\Controllers\CountryController@destroy');
+Route::get('country/filterdata/{data}', 'App\Http\Controllers\CountryController@filterdata');

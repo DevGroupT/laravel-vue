@@ -48,9 +48,19 @@
     "department": "Department",
     "user_management": "User Management",
     "user": "User",
-    "users": "Users",
     "role": "Role",
     "permission": "Permission",
     "filter": "Filter",
-    "add_new": "Add New"
+    "add_new": "Add New",
+    "code": "Code",
+    "country_code": "Country Code",
+    "country_name": "Country Name",
+    "required_field": " field is required.",
+    "no_result": "There is no result.",
+    "sure": "Are you sure?",
+    "delete": "Delete",
+    "success": "Success",
+    "error": "Error",
+    "failed": "Failed",
+    "users": "Users"
 }
