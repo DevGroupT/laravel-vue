@@ -31,7 +31,7 @@
           {{ $t("filter") }}
         </button>
       </div>
-      <div class="col-3 right-side padding-top">
+      <div class="col-3 padding-top">
         <button
           type="button"
           class="btn btn-primary"

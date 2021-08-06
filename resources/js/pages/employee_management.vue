@@ -1,37 +1,12 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-12">
+      <div class="col-9">
         <h5>
           {{ this.$t("employee_management") }}
         </h5>
       </div>
-    </div>
-    <br />
-    <div class="row">
-      <div class="col-3 padding-top">
-        <input
-          v-model="filterData.name"
-          type="text"
-          class="form-control"
-          id="in_name"
-          :placeholder="$t('name')"
-        />
-      </div>
       <div class="col-3">
-        <span class="sub-font-size">{{ $t("country") }}</span>
-        <b-form-select
-          v-model="filterData.id"
-          :options="options"
-          size="sm"
-        ></b-form-select>
-      </div>
-      <div class="col-3 padding-top">
-        <button type="button" class="btn btn-primary" @click="Filter">
-          {{ $t("filter") }}
-        </button>
-      </div>
-      <div class="col-3 right-side padding-top">
         <button
           type="button"
           class="btn btn-primary"
@@ -40,6 +15,38 @@
           @click="ShowMyModal(0)"
         >
           {{ $t("add_new") }}
+        </button>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-3 padding-top">
+        <input
+          v-model="filterData.firstname"
+          type="text"
+          class="form-control"
+          :placeholder="$t('firstname')"
+        />
+      </div>
+      <div class="col-3 padding-top">
+        <input
+          v-model="filterData.lastname"
+          type="text"
+          class="form-control"
+          :placeholder="$t('lastname')"
+        />
+      </div>
+      <div class="col-3">
+        <span class="sub-font-size">{{ $t("deaprtment") }}</span>
+        <b-form-select
+          v-model="filterData.department_id"
+          :options="department_options"
+          size="sm"
+        ></b-form-select>
+      </div>
+      <div class="col-3 padding-top">
+        <button type="button" class="btn btn-primary" @click="Filter">
+          {{ $t("filter") }}
         </button>
       </div>
     </div>
@@ -52,7 +59,7 @@
       aria-labelledby="myModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel">
@@ -69,22 +76,92 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-6 padding-top">
+              <div class="col-4">
                 <input
-                  v-model="modalData.name"
+                  v-model="modalData.firstname"
                   type="text"
                   class="form-control"
-                  id="in_name"
-                  :placeholder="$t('name')"
+                  :placeholder="$t('firstname')"
                 />
               </div>
-              <div class="col-6">
-                <span class="sub-font-size">{{ $t("country") }}</span>
+              <div class="col-4">
+                <input
+                  v-model="modalData.lastname"
+                  type="text"
+                  class="form-control"
+                  :placeholder="$t('lastname')"
+                />
+              </div>
+              <div class="col-4">
+                <input
+                  v-model="modalData.middlename"
+                  type="text"
+                  class="form-control"
+                  :placeholder="$t('middle_name')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 padding-top">
+                <input
+                  v-model="modalData.address"
+                  type="text"
+                  class="form-control"
+                  :placeholder="$t('address')"
+                />
+              </div>
+              <div class="col-4">
+                <span class="sub-font-size">{{ $t("department") }}</span>
                 <b-form-select
-                  v-model="modalData.id"
-                  :options="options"
+                  v-model="modalData.department_id"
+                  :options="department_options"
                   size="sm"
                 ></b-form-select>
+              </div>
+              <div class="col-4">
+                <span class="sub-font-size">{{ $t("city") }}</span>
+                <b-form-select
+                  v-model="modalData.city_id"
+                  :options="city_options"
+                  size="sm"
+                ></b-form-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <span class="sub-font-size">{{ $t("state") }}</span>
+                <b-form-select
+                  v-model="modalData.state_id"
+                  :options="state_options"
+                  size="sm"
+                ></b-form-select>
+              </div>
+              <div class="col-4">
+                <span class="sub-font-size">{{ $t("country") }}</span>
+                <b-form-select
+                  v-model="modalData.country_id"
+                  :options="country_options"
+                  size="sm"
+                ></b-form-select>
+              </div>
+              <div class="col-4 padding-top">
+                <input
+                  v-model="modalData.zip"
+                  type="text"
+                  class="form-control"
+                  :placeholder="$t('zip')"
+                />
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-6">
+                <span>{{ $t("birthday") + " : " }}</span>
+                <input type="date" v-model="modalData.birthday" />
+              </div>
+              <div class="col-6">
+                <span>{{ $t("date_hired") + " : " }}</span>
+                <input type="date" v-model="modalData.date_hired" />
               </div>
             </div>
           </div>
@@ -93,7 +170,6 @@
               type="button"
               class="btn btn-secondary"
               data-dismiss="modal"
-              @click="HideMyModal"
             >
               {{ $t("cancel") }}
             </button>
@@ -101,7 +177,7 @@
               type="button"
               id="add_button"
               class="btn btn-primary"
-              @click="AddState"
+              @click="AddEmployee"
             >
               {{ $t("add_new") }}
             </button>
@@ -109,7 +185,7 @@
               type="button"
               id="update_button"
               class="btn btn-primary"
-              @click="UpdateState"
+              @click="UpdateEmployee"
             >
               {{ $t("update") }}
             </button>
@@ -164,9 +240,36 @@
     <br />
     <div class="row">
       <div class="col-12">
-        <b-table striped hover :fields="fields" :items="items" v-if="options">
-          <template #cell(country)="row">
-            <div v-for="(country, index) in options" :key="index">
+        <b-table
+          striped
+          hover
+          :fields="fields"
+          :items="items"
+          v-if="country_options"
+        >
+          <template #cell(department_id)="row">
+            <div v-for="(department, index) in department_options" :key="index">
+              <div v-if="department.value == row.value">
+                {{ department.text }}
+              </div>
+            </div>
+          </template>
+          <template #cell(city_id)="row">
+            <div v-for="(city, index) in city_options" :key="index">
+              <div v-if="city.value == row.value">
+                {{ city.text }}
+              </div>
+            </div>
+          </template>
+          <template #cell(state_id)="row">
+            <div v-for="(state, index) in state_options" :key="index">
+              <div v-if="state.value == row.value">
+                {{ state.text }}
+              </div>
+            </div>
+          </template>
+          <template #cell(country_id)="row">
+            <div v-for="(country, index) in country_options" :key="index">
               <div v-if="country.value == row.value">
                 {{ country.text }}
               </div>
@@ -197,7 +300,7 @@
               viewBox="0 0 16 16"
               data-toggle="modal"
               data-target="#deleteModal"
-              @click="DeleteState(row.value)"
+              @click="DeleteEmployee(row.value)"
             >
               <path
                 d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -221,39 +324,95 @@ import Vue from "vue";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 Vue.use(VueToast);
-import { BTable, BFormSelect } from "bootstrap-vue";
+import { BTable, BFormSelect, BFormDatepicker } from "bootstrap-vue";
 Vue.component("b-table", BTable);
 Vue.component("b-form-select", BFormSelect);
+Vue.component("b-form-datepicker", BFormDatepicker);
 
 export default {
   middleware: "auth",
   metaInfo() {
-    return { title: this.$t("state") };
+    return { title: this.$t("employee") };
   },
   data() {
     return {
       modalTitle: "",
-      selectedStateId: 0,
-      nameFlag: 0,
+      selectedEmployeeId: 0,
+      firstnameFlag: 0,
+      lastnameFlag: 0,
+      addressFlag: 0,
+      departmentFlag: 0,
+      cityFlag: 0,
+      stateFlag: 0,
       countryFlag: 0,
-      options: [],
+      zipFlag: 0,
+      department_options: [],
+      city_options: [],
+      state_options: [],
+      country_options: [],
       filterData: {
-        name: "",
-        id: null,
+        firstname: "",
+        lastname: "",
+        department_id: null,
       },
       modalData: {
-        name: "",
-        id: null,
+        firstname: "",
+        lastname: "",
+        middlename: "",
+        address: "",
+        department_id: null,
+        city_id: null,
+        state_id: null,
+        country_id: null,
+        zip: "",
+        birthday: "",
+        date_hired: "",
       },
       items: [],
       fields: [
         {
-          key: "name",
+          key: "firstname",
+          label: this.$t("firstname"),
+        },
+        {
+          key: "lastname",
+          label: this.$t("lastname"),
+        },
+        {
+          key: "middlename",
+          label: this.$t("middle_name"),
+        },
+        {
+          key: "address",
+          label: this.$t("address"),
+        },
+        {
+          key: "department_id",
+          label: this.$t("department"),
+        },
+        {
+          key: "city_id",
+          label: this.$t("city"),
+        },
+        {
+          key: "state_id",
           label: this.$t("state"),
         },
         {
-          key: "country",
+          key: "country_id",
           label: this.$t("country"),
+        },
+        {
+          key: "zip",
+          label: this.$t("zip"),
+        },
+        {
+          key: "birthday",
+          label: this.$t("birthday"),
+        },
+        {
+          key: "date_hired",
+          label: this.$t("date_hired"),
         },
         {
           key: "id",
@@ -268,24 +427,91 @@ export default {
   },
   methods: {
     InitailData() {
-      this.filterData.name = "";
-      this.filterData.id = null;
+      this.filterData.firstname = "";
+      this.filterData.lastname = "";
+      this.filterData.department_id = null;
       this.modalTitle = "";
-      this.selectedStateId = 0;
-      this.nameFlag = 0;
+      this.selectedEmployeeId = 0;
+      this.firstnameFlag = 0;
+      this.lastnameFlag = 0;
+      this.addressFlag = 0;
+      this.departmentFlag = 0;
+      this.cityFlag = 0;
+      this.stateFlag = 0;
       this.countryFlag = 0;
+      this.zipFlag = 0;
     },
     GetOptionData() {
+      axios({
+        url: `/api/department/getdata`,
+        method: "get",
+      })
+        .then((response) => {
+          if (response.data.length == 0) {
+            this.department_options = [];
+          } else {
+            for (let index = 0; index < response.data.length; index++) {
+              this.department_options.push({
+                value: response.data[index].id,
+                text: response.data[index].name,
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+
+      axios({
+        url: `/api/city/getdata`,
+        method: "get",
+      })
+        .then((response) => {
+          if (response.data.length == 0) {
+            this.city_options = [];
+          } else {
+            for (let index = 0; index < response.data.length; index++) {
+              this.city_options.push({
+                value: response.data[index].id,
+                text: response.data[index].name,
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+
+      axios({
+        url: `/api/state/getdata`,
+        method: "get",
+      })
+        .then((response) => {
+          if (response.data.length == 0) {
+            this.state_options = [];
+          } else {
+            for (let index = 0; index < response.data.length; index++) {
+              this.state_options.push({
+                value: response.data[index].id,
+                text: response.data[index].name,
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+
       axios({
         url: `/api/country/getdata`,
         method: "get",
       })
         .then((response) => {
           if (response.data.length == 0) {
-            this.options = [];
+            this.country_options = [];
           } else {
             for (let index = 0; index < response.data.length; index++) {
-              this.options.push({
+              this.country_options.push({
                 value: response.data[index].id,
                 text: response.data[index].name,
               });
@@ -298,7 +524,7 @@ export default {
     },
     GetData() {
       axios({
-        url: `/api/state/getdata`,
+        url: `/api/employee/getdata`,
         method: "get",
       })
         .then((response) => {
@@ -314,11 +540,15 @@ export default {
         });
     },
     Filter() {
-      if (this.filterData.name == "" && this.filterData.id == null) {
+      if (
+        this.filterData.firstname == "" &&
+        this.filterData.lastname == "" &&
+        this.filterData.department_id == null
+      ) {
         this.GetData();
       } else {
         axios({
-          url: `/api/state/filterdata`,
+          url: `/api/employee/filterdata`,
           method: "post",
           data: this.filterData,
         })
@@ -343,36 +573,95 @@ export default {
     },
     ShowMyModal(index) {
       if (index == 0) {
-        this.modalData.name = "";
-        this.modalData.id = null;
+        this.modalData.firstname = "";
+        this.modalData.lastname = "";
+        this.modalData.middlename = "";
+        this.modalData.address = "";
+        this.modalData.department_id = null;
+        this.modalData.city_id = null;
+        this.modalData.state_id = null;
+        this.modalData.country_id = null;
+        this.modalData.zip = "";
+        this.modalData.birthday = "";
+        this.modalData.date_hired = "";
         this.modalTitle = this.$t("add_new");
         $("#update_button").hide(0);
         $("#add_button").show(0);
-        this.selectedStateId = index;
+        this.selectedEmployeeId = index;
       } else {
-        this.modalData.name = index.item.name;
-        this.modalData.id = index.item.country;
-        this.modalTitle = this.$t("update") + " " + this.$t("state");
+        this.modalData.firstname = index.item.firstname;
+        this.modalData.lastname = index.item.lastname;
+        this.modalData.middlename = index.item.middlename;
+        this.modalData.address = index.item.address;
+        this.modalData.department_id = index.item.department_id;
+        this.modalData.city_id = index.item.city_id;
+        this.modalData.state_id = index.item.state_id;
+        this.modalData.country_id = index.item.country_id;
+        this.modalData.zip = index.item.zip;
+        this.modalData.birthday = index.item.birthday;
+        this.modalData.date_hired = index.item.date_hired;
+        this.modalTitle = this.$t("update") + " " + this.$t("employee");
         $("#add_button").hide(0);
         $("#update_button").show(0);
-        this.selectedStateId = index.item.id;
+        this.selectedEmployeeId = index.item.id;
       }
     },
-    HideMyModal() {
-      this.modalData.name = "";
-      this.modalData.id = null;
-    },
     VaildateField() {
-      if (this.modalData.name == "") {
+      if (this.modalData.firstname == "") {
         Vue.$toast.open({
-          message: this.$t("name") + this.$t("required_field"),
+          message: this.$t("firstname") + this.$t("required_field"),
           type: "error",
         });
       } else {
-        this.nameFlag = 1;
+        this.firstnameFlag = 1;
       }
 
-      if (this.modalData.id == null) {
+      if (this.modalData.lastname == "") {
+        Vue.$toast.open({
+          message: this.$t("lastname") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.lastnameFlag = 1;
+      }
+
+      if (this.modalData.address == "") {
+        Vue.$toast.open({
+          message: this.$t("address") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.addressFlag = 1;
+      }
+
+      if (this.modalData.department_id == null) {
+        Vue.$toast.open({
+          message: this.$t("department") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.departmentFlag = 1;
+      }
+
+      if (this.modalData.city_id == null) {
+        Vue.$toast.open({
+          message: this.$t("city") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.cityFlag = 1;
+      }
+
+      if (this.modalData.state_id == null) {
+        Vue.$toast.open({
+          message: this.$t("state") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.stateFlag = 1;
+      }
+
+      if (this.modalData.country_id == null) {
         Vue.$toast.open({
           message: this.$t("country") + this.$t("required_field"),
           type: "error",
@@ -380,13 +669,31 @@ export default {
       } else {
         this.countryFlag = 1;
       }
+
+      if (this.modalData.zip == "") {
+        Vue.$toast.open({
+          message: this.$t("zip") + this.$t("required_field"),
+          type: "error",
+        });
+      } else {
+        this.zipFlag = 1;
+      }
     },
-    AddState() {
+    AddEmployee() {
       this.VaildateField();
 
-      if (this.nameFlag == 1 && this.countryFlag == 1) {
+      if (
+        this.firstnameFlag == 1 &&
+        this.lastnameFlag == 1 &&
+        this.addressFlag == 1 &&
+        this.departmentFlag == 1 &&
+        this.cityFlag == 1 &&
+        this.stateFlag == 1 &&
+        this.countryFlag == 1 &&
+        this.zipFlag == 1
+      ) {
         axios({
-          url: `/api/state/create`,
+          url: `/api/employee/create`,
           method: "post",
           data: this.modalData,
         })
@@ -402,7 +709,6 @@ export default {
               type: "success",
             });
             this.GetData();
-            this.HideMyModal();
             $("#myModal").modal("hide");
           })
           .catch((error) => {
@@ -410,12 +716,21 @@ export default {
           });
       }
     },
-    UpdateState() {
+    UpdateEmployee() {
       this.VaildateField();
 
-      if (this.nameFlag == 1 && this.countryFlag == 1) {
+      if (
+        this.firstnameFlag == 1 &&
+        this.lastnameFlag == 1 &&
+        this.addressFlag == 1 &&
+        this.departmentFlag == 1 &&
+        this.cityFlag == 1 &&
+        this.stateFlag == 1 &&
+        this.countryFlag == 1 &&
+        this.zipFlag == 1
+      ) {
         axios({
-          url: `/api/state/update/${this.selectedStateId}`,
+          url: `/api/employee/update/${this.selectedEmployeeId}`,
           method: "post",
           data: this.modalData,
         })
@@ -431,7 +746,6 @@ export default {
               type: "success",
             });
             this.GetData();
-            this.HideMyModal();
             $("#myModal").modal("hide");
           })
           .catch((error) => {
@@ -439,12 +753,12 @@ export default {
           });
       }
     },
-    DeleteState(index) {
-      this.selectedStateId = index;
+    DeleteEmployee(index) {
+      this.selectedEmployeeId = index;
     },
     ConfirmDelete() {
       axios({
-        url: `/api/state/delete/${this.selectedStateId}`,
+        url: `/api/employee/delete/${this.selectedEmployeeId}`,
         method: "post",
       })
         .then((response) => {
@@ -471,7 +785,7 @@ export default {
 
 <style lang="scss" scoped>
 .margin-rignt {
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 .padding-top {

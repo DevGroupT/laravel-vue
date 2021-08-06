@@ -86,4 +86,4 @@ Route::get('employee/getdata', 'App\Http\Controllers\EmployeesController@index')
 Route::post('employee/create', 'App\Http\Controllers\EmployeesController@store');
 Route::post('employee/update/{id}', 'App\Http\Controllers\EmployeesController@update');
 Route::post('employee/delete/{id}', 'App\Http\Controllers\EmployeesController@destroy');
-Route::get('employee/filterdata/{data}', 'App\Http\Controllers\EmployeesController@filterdata');
+Route::post('employee/filterdata', 'App\Http\Controllers\EmployeesController@filterdata');

@@ -18,12 +18,12 @@
           :placeholder="$t('name')"
         />
       </div>
-      <div class="col-4">
+      <div class="col-5">
         <button type="button" class="btn btn-primary" @click="Filter">
           {{ $t("filter") }}
         </button>
       </div>
-      <div class="col-4 right-side">
+      <div class="col-3">
         <button
           type="button"
           class="btn btn-primary"

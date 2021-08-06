@@ -27,8 +27,17 @@ class EmployeesController extends Controller
     public function store(Request $request)
     {
         return Employees::create([
-            'name'       => $request->name,
-            'country'    => $request->id,
+            'firstname'         => $request->firstname,
+            'lastname'          => $request->lastname,
+            'middlename'        => $request->middlename,
+            'address'           => $request->address,
+            'department_id'     => $request->department_id,
+            'city_id'           => $request->city_id,
+            'state_id'          => $request->state_id,
+            'country_id'        => $request->country_id,
+            'zip'               => $request->zip,
+            'birthday'          => $request->birthday,
+            'date_hired'        => $request->date_hired,
         ]);
     }
 
@@ -40,16 +49,15 @@ class EmployeesController extends Controller
      */
     public function filterdata(Request $request)
     {
-        if($request->name == '' || $request->id == ''){
-            if($request->name == ''){
-                return DB::table('employees')->where('country', $request->id)->get();
-            }
-            if($request->id == ''){
-                return DB::table('employees')->where('name', 'like', '%' . $request->name . '%')->get();
-            }
-        }else{
-            return DB::table('employees')->where('name', 'like', '%' . $request->name . '%')->where('country', $request->id)->get();
+        $firstname = $request->get('firstname', '');
+        $lastname = $request->get('lastname', '');
+        $department_id = $request->get('department_id', '');
+        $employees = Employees::where('firstname', 'like', "%$firstname%")->where('lastname', 'like', "%$lastname%");
+        if($department_id) {
+            $employees = $employees->where('department_id', $department_id);
         }
+
+        return $employees->get();
     }
 
     /**
@@ -62,8 +70,17 @@ class EmployeesController extends Controller
     public function update(Request $request, $id)
     {
         $data = array(
-            'name'      => $request->name,
-            'country'   => $request->id,
+            'firstname'         => $request->firstname,
+            'lastname'          => $request->lastname,
+            'middlename'        => $request->middlename,
+            'address'           => $request->address,
+            'department_id'     => $request->department_id,
+            'city_id'           => $request->city_id,
+            'state_id'          => $request->state_id,
+            'country_id'        => $request->country_id,
+            'zip'               => $request->zip,
+            'birthday'          => $request->birthday,
+            'date_hired'        => $request->date_hired,
         );
         return DB::table('employees')->where('id', $id)->update($data);
     }
