@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\CitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +67,9 @@ Route::post('state/create', 'App\Http\Controllers\StateController@store');
 Route::post('state/update/{id}', 'App\Http\Controllers\StateController@update');
 Route::post('state/delete/{id}', 'App\Http\Controllers\StateController@destroy');
 Route::post('state/filterdata', 'App\Http\Controllers\StateController@filterdata');
+
+Route::get('city/getdata', 'App\Http\Controllers\CitiesController@index');
+Route::post('city/create', 'App\Http\Controllers\CitiesController@store');
+Route::post('city/update/{id}', 'App\Http\Controllers\CitiesController@update');
+Route::post('city/delete/{id}', 'App\Http\Controllers\CitiesController@destroy');
+Route::post('city/filterdata', 'App\Http\Controllers\CitiesController@filterdata');
