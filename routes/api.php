@@ -32,6 +32,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::patch('settings/profile', [ProfileController::class, 'update']);
     Route::patch('settings/password', [PasswordController::class, 'update']);
+    
+    // User Management api
+    Route::prefix('users')->group(function ()
+    {
+        Route::get('/', [UserController::class, 'getAllUsers']);
+        Route::post('/', [UserController::class, 'createUser']);
+    });
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
