@@ -12,6 +12,7 @@ use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\StateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +53,9 @@ Route::post('country/create', 'App\Http\Controllers\CountryController@store');
 Route::post('country/update/{id}', 'App\Http\Controllers\CountryController@update');
 Route::post('country/delete/{id}', 'App\Http\Controllers\CountryController@destroy');
 Route::get('country/filterdata/{data}', 'App\Http\Controllers\CountryController@filterdata');
+
+Route::get('state/getdata', 'App\Http\Controllers\StateController@index');
+Route::post('state/create', 'App\Http\Controllers\StateController@store');
+Route::post('state/update/{id}', 'App\Http\Controllers\StateController@update');
+Route::post('state/delete/{id}', 'App\Http\Controllers\StateController@destroy');
+Route::post('state/filterdata', 'App\Http\Controllers\StateController@filterdata');

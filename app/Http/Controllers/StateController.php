@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\State;
 use Illuminate\Http\Request;
+use DB;
 
 class StateController extends Controller
 {
@@ -14,17 +15,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('states')->get();
     }
 
     /**
@@ -35,7 +26,10 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return State::create([
+            'name'       => $request->name,
+            'country'    => $request->id,
+        ]);
     }
 
     /**
@@ -44,20 +38,18 @@ class StateController extends Controller
      * @param  \App\Models\State  $state
      * @return \Illuminate\Http\Response
      */
-    public function show(State $state)
+    public function filterdata(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\State  $state
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(State $state)
-    {
-        //
+        if($request->name == '' || $request->id == ''){
+            if($request->name == ''){
+                return DB::table('states')->where('country', $request->id)->get();
+            }
+            if($request->id == ''){
+                return DB::table('states')->where('name', 'like', '%' . $request->name . '%')->get();
+            }
+        }else{
+            return DB::table('states')->where('name', 'like', '%' . $request->name . '%')->where('country', $request->id)->get();
+        }
     }
 
     /**
@@ -67,9 +59,13 @@ class StateController extends Controller
      * @param  \App\Models\State  $state
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, State $state)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'name'      => $request->name,
+            'country'   => $request->id,
+        );
+        return DB::table('states')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +74,8 @@ class StateController extends Controller
      * @param  \App\Models\State  $state
      * @return \Illuminate\Http\Response
      */
-    public function destroy(State $state)
+    public function destroy($id)
     {
-        //
+        return DB::table('states')->where('id', $id)->delete();
     }
 }

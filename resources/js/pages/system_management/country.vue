@@ -224,12 +224,10 @@ export default {
         {
           key: "name",
           label: this.$t("country_name"),
-          sortable: true,
         },
         {
           key: "country_code",
           label: this.$t("country_code"),
-          sortable: true,
         },
         {
           key: "id",
