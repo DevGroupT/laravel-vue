@@ -36,7 +36,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('users')->group(function ()
     {
         Route::get('/', [UserController::class, 'getAllUsers']);
-        Route::post('/', [UserController::class, 'createUser']);
+        Route::get('/create', [UserController::class, 'createUser']);
+        Route::get('/update', [UserController::class, 'updateUser']);
+        Route::get('/updateRole', [UserController::class, 'updateRole']);
+        Route::get('/updatePermission', [UserController::class, 'updatePermission']);
+        Route::get('/delete', [UserController::class, 'deleteUser']);
     });
 });
 

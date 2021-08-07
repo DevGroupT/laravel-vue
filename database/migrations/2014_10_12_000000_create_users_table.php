@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('lastname', 60);
             $table->string('email', 60)->unique();
             $table->string('password');
-            $table->char('role', 1);
-            $table->char('permission', 1);
+            $table->char('role', 1)->default("0");
+            $table->char('permission', 1)->default("0");
             $table->rememberToken();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

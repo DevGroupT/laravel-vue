@@ -22,8 +22,21 @@
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
-          <li v-if="user" class="nav-item dropdown">
-            <a
+          <template v-if="user" class="nav-item dropdown">
+          <!-- <li v-if="user" class="nav-item dropdown"> -->
+            <li class="nav-item username">              
+              Welcome {{ user.username }} !
+            </li>
+            <li class="nav-item">
+              <a href="#" class="dropdown-item pl-3" @click.prevent="logout">
+                <button type="button" class="btn btn-outline-dark">
+                  <fa icon="sign-out-alt" fixed-width />
+                  {{ $t("logout") }}
+                </button>
+              </a>
+            </li>
+          </template>
+            <!-- <a
               class="nav-link dropdown-toggle text-dark"
               href="#"
               role="button"
@@ -36,8 +49,8 @@
                 class="rounded-circle profile-photo mr-1"
               />
               {{ user.name }}
-            </a>
-            <div class="dropdown-menu">
+            </a> -->
+            <!-- <div class="dropdown-menu">
               <router-link
                 :to="{ name: 'settings.profile' }"
                 class="dropdown-item pl-3"
@@ -52,7 +65,7 @@
                 {{ $t("logout") }}
               </a>
             </div>
-          </li>
+          </li> -->
           <!-- Guest -->
           <template v-else>
             <li class="nav-item">
@@ -114,5 +127,8 @@ export default {
   width: 2rem;
   height: 2rem;
   margin: -0.375rem 0;
+}
+.username {
+  padding: 0.6rem 1.5rem;
 }
 </style>

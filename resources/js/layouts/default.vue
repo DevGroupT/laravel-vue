@@ -103,9 +103,18 @@ export default {
           ],
         },
         {
-          href: "/user_management",
           title: this.$t("user_management"),
           icon: "fa fa-user",
+          child: [
+            {
+              href: "/settings/profile",
+              title: this.$t("user_setting"),
+            },
+            {
+              href: "/user_management",
+              title: this.$t("user_management"),
+            }
+          ]
         },
       ],
     };
@@ -133,8 +142,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #main {
   transition: margin-left 0.5s;
+}
+.vsm--link_level-2 {
+  padding-left: 4rem !important;
 }
 </style>

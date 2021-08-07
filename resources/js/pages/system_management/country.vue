@@ -196,12 +196,6 @@
 <script>
 import axios from "axios";
 import $ from "jquery";
-import Vue from "vue";
-import VueToast from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
-Vue.use(VueToast);
-import { BTable } from "bootstrap-vue";
-Vue.component("b-table", BTable);
 
 export default {
   middleware: "auth",
