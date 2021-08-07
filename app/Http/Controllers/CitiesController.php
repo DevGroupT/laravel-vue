@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cities;
 use Illuminate\Http\Request;
+use DB;
 
 class CitiesController extends Controller
 {
@@ -14,17 +15,7 @@ class CitiesController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('cities')->get();
     }
 
     /**
@@ -35,7 +26,10 @@ class CitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Cities::create([
+            'name'       => $request->name,
+            'state'      => $request->id,
+        ]);
     }
 
     /**
@@ -44,20 +38,18 @@ class CitiesController extends Controller
      * @param  \App\Models\Cities  $cities
      * @return \Illuminate\Http\Response
      */
-    public function show(Cities $cities)
+    public function filterdata(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cities  $cities
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cities $cities)
-    {
-        //
+        if($request->name == '' || $request->id == ''){
+            if($request->name == ''){
+                return DB::table('cities')->where('state', $request->id)->get();
+            }
+            if($request->id == ''){
+                return DB::table('cities')->where('name', 'like', '%' . $request->name . '%')->get();
+            }
+        }else{
+            return DB::table('cities')->where('name', 'like', '%' . $request->name . '%')->where('state', $request->id)->get();
+        }
     }
 
     /**
@@ -67,9 +59,13 @@ class CitiesController extends Controller
      * @param  \App\Models\Cities  $cities
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cities $cities)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'name'      => $request->name,
+            'state'     => $request->id,
+        );
+        return DB::table('cities')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +74,8 @@ class CitiesController extends Controller
      * @param  \App\Models\Cities  $cities
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cities $cities)
+    public function destroy($id)
     {
-        //
+        return DB::table('cities')->where('id', $id)->delete();
     }
 }

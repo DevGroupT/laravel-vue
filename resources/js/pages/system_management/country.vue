@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="row">
+      <div class="col-12">
+        <h5>
+          {{ this.$t("system_management") + " / " + this.$t("country") }}
+        </h5>
+      </div>
+    </div>
+    <br />
+    <div class="row">
       <div class="col-4">
         <input
           v-model="filterName"
@@ -10,12 +18,12 @@
           :placeholder="$t('name')"
         />
       </div>
-      <div class="col-4">
+      <div class="col-5">
         <button type="button" class="btn btn-primary" @click="Filter">
           {{ $t("filter") }}
         </button>
       </div>
-      <div class="col-4 right-side">
+      <div class="col-3">
         <button
           type="button"
           class="btn btn-primary"
@@ -218,12 +226,10 @@ export default {
         {
           key: "name",
           label: this.$t("country_name"),
-          sortable: true,
         },
         {
           key: "country_code",
           label: this.$t("country_code"),
-          sortable: true,
         },
         {
           key: "id",

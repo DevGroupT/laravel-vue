@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employees;
 use Illuminate\Http\Request;
+use DB;
 
 class EmployeesController extends Controller
 {
@@ -14,17 +15,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DB::table('employees')->get();
     }
 
     /**
@@ -35,7 +26,19 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Employees::create([
+            'firstname'         => $request->firstname,
+            'lastname'          => $request->lastname,
+            'middlename'        => $request->middlename,
+            'address'           => $request->address,
+            'department_id'     => $request->department_id,
+            'city_id'           => $request->city_id,
+            'state_id'          => $request->state_id,
+            'country_id'        => $request->country_id,
+            'zip'               => $request->zip,
+            'birthday'          => $request->birthday,
+            'date_hired'        => $request->date_hired,
+        ]);
     }
 
     /**
@@ -44,20 +47,17 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function show(Employees $employees)
+    public function filterdata(Request $request)
     {
-        //
-    }
+        $firstname = $request->get('firstname', '');
+        $lastname = $request->get('lastname', '');
+        $department_id = $request->get('department_id', '');
+        $employees = Employees::where('firstname', 'like', "%$firstname%")->where('lastname', 'like', "%$lastname%");
+        if($department_id) {
+            $employees = $employees->where('department_id', $department_id);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Employees  $employees
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Employees $employees)
-    {
-        //
+        return $employees->get();
     }
 
     /**
@@ -67,9 +67,22 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employees $employees)
+    public function update(Request $request, $id)
     {
-        //
+        $data = array(
+            'firstname'         => $request->firstname,
+            'lastname'          => $request->lastname,
+            'middlename'        => $request->middlename,
+            'address'           => $request->address,
+            'department_id'     => $request->department_id,
+            'city_id'           => $request->city_id,
+            'state_id'          => $request->state_id,
+            'country_id'        => $request->country_id,
+            'zip'               => $request->zip,
+            'birthday'          => $request->birthday,
+            'date_hired'        => $request->date_hired,
+        );
+        return DB::table('employees')->where('id', $id)->update($data);
     }
 
     /**
@@ -78,8 +91,8 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employees $employees)
+    public function destroy($id)
     {
-        //
+        return DB::table('employees')->where('id', $id)->delete();
     }
 }
